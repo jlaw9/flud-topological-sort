@@ -1,0 +1,36 @@
+* Topological sort with cycles
+https://stackoverflow.com/a/10608235/7483950
+1. Find the cycles
+2. Remove the cycles (in a smart way)
+3. Topological sort
+** How do we find the cycles?
+- Johnson's algorithm for finding smiple cycles
+  - Implemented in networkx: [[https://networkx.github.io/documentation/networkx-1.9/reference/generated/networkx.algorithms.cycles.simple_cycles.html][simple_cycles]]
+** How do we remove cycles? - FAS algorithm
+Combinatorial Algorithms for Feedback Problems in Directed Graphs - http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.1.9435&rep=rep1&type=pdf
+
+1. Weight all of the edges according ot how many s->t paths they are in 
+2. For every cycle:
+   1. Find the minimum weight edge
+   2. downweight all edges by that minimum weight
+   3. Remove all edges with a weight of 0
+   4. Remove all cycles that are now broken
+3. After all of the cycles are broken, see if any of the removed edges can be added back
+   1. loop through all edges (u->v) and see if adding them back causes a cycle by checking if a v->u path already exists
+** Topological sort
+- implemented in networkx and javascript
+*** Murali's response
+***** The number of cycles can be exponential in the size of the graph. 
+In practice, it may be a very large number. I don't think it is wise to compute all cycles, which is what I believe simple_cycles will do. Moreover, you do not need to do so, as I explain below.
+***** Count the number of s->t paths
+This is not an easy problem either. Even counting the number of s-t paths (irrespective of lenght) is a #P problem. In practice, the number of paths may be manageable. But what is the precise algorithm to count the number of s-t paths through each edge? And if you do not consider cycles, are you counting the number of loopless s-t paths through each edge? You have to develop a provably correct algorithm for this problem. 
+** all s->t paths proof
+We can prove it algorithmically 
+To find all of the simple s-t paths in a graph, we can find all of the loopless paths from each of the neighbors of s to t, and then add s to each of those paths. We can do so recursively until we reach the target t. Then we know we have found a complete s-t path. If ever following a neighbor or a child of a node would create a cycle, we do not follow that neighbor. All possible simple s-t paths will be found exactly once because we are following every possible neighbor of each node exactly once (without creating cycles), and only stopping if the node is t (i.e., the path ends at t).
+
+* Notes from 
+* Use JSNetworkx functions?
+- Doesn't have a lot of things implemented yet
+  - http://jsnetworkx.org/api_progress.html
+- http://jsnetworkx.org/api/#/v/v0.3.4/hasPath
+
