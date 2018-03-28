@@ -1,3 +1,7 @@
+* Intro
+This repo contains some python scripts which I implemented before writing up the algorithm in javascript.
+My implementaion is here: https://github.com/jlaw9/flud/tree/topological_sort
+Yoonjin's updated implementation is here: https://github.com/jlaw9/flud/tree/weight_of_edge 
 * Topological sort with cycles
 https://stackoverflow.com/a/10608235/7483950
 1. Find the cycles
